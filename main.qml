@@ -1,10 +1,11 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Dialogs 1.3
 
 Window {
-    width: 600
-    height: 600
+    width: 1000
+    height: 800
     visible: true
     title: qsTr("BUTTON_TEST")
 
@@ -169,7 +170,7 @@ Window {
         // anchors.centerIn: parent
         x: 100
         y: 300
-        placeholderText: "Enter Password Here ... "
+        placeholderText: "Enter Password Here "
         font.pointSize: 12
 
         validator: RegExpValidator { regExp: /[0-9]+/ }
@@ -486,4 +487,360 @@ Window {
             console.log("Switch is on : ", checked)
         }
     }
+
+    Column
+    {
+        spacing: 20
+        // anchors.centerIn: parent
+        width: 640
+        x: 15
+        y: 550
+
+        Slider
+        {
+            id: mySlider
+            width: parent.width * 0.8
+            from: 0
+            to: 1000
+            stepSize: 1
+            anchors.centerIn: parent
+
+            onValueChanged:
+            {
+                console.log("Slider Value : " , value);
+            }
+
+            background: Rectangle
+            {
+                x: mySlider.leftPadding
+                y: mySlider.topPadding + mySlider.availableHeight / 2 - height / 2
+                implicitWidth: 200
+                implicitHeight: 20
+                width: mySlider.availableWidth
+                height: implicitHeight
+                radius: height / 2
+                color: "#0abde3"
+
+                Rectangle
+                {
+                    width: mySlider.visualPosition == 0 ? 0 : mySlider.handle.x  + mySlider.handle.width / 2
+                    height: parent.height
+                    color: "#341f97"
+                    radius: height / 2
+                }
+            }
+
+            handle: Rectangle
+            {
+                x: mySlider.leftPadding + mySlider.visualPosition * (mySlider.availableWidth - width)
+                y: mySlider.topPadding + mySlider.availableHeight / 2 - height/ 2
+                implicitHeight: 50
+                implicitWidth: 50
+                radius: implicitWidth / 2
+                color: mySlider.pressed ? "#ee5253" : "#222f3e"
+                border.color: "#1dd1a1"
+                border.width: 2
+            }
+        }
+
+        Text
+        {
+            id: mySliderText
+            text : "Slider Value : " + mySlider.value
+            anchors.top: mySlider.bottom
+            anchors.horizontalCenter: mySlider.horizontalCenter
+        }
+    }
+
+    Column
+    {
+        spacing: 20
+        // anchors.centerIn: parent
+        x: 100
+        y: 600
+        ProgressBar
+        {
+            id: myProgressBar
+            width: 300
+            value: 75
+            from: 0 
+            to: 750 
+
+            onValueChanged:
+            {
+                console.log("ProgressBar Value : ", value)
+            }
+        }
+
+        Row
+        {
+            spacing: 20
+            Button
+            {
+                id: myButton_Inc
+                text: "Increase"
+                onClicked:
+                {
+                    if (myProgressBar.value < myProgressBar.to)
+                    {
+                        myProgressBar.value += 15
+                    }
+                }
+            }
+
+            Button
+            {
+                id: myButton_Dec
+                text: "Decrease"
+                onClicked:
+                {
+                    if (myProgressBar.value > myProgressBar.from)
+                    {
+                        myProgressBar.value -= 15
+                    }
+                }
+            }
+        }
+
+        Text
+        {
+            id: myText
+            text: "Progress: " + Math.round((myProgressBar.value * 100) / myProgressBar.to) + " %"
+            font.pixelSize: 15
+        }
+    }
+
+    Label
+    {
+        id: myLabel
+        font.pixelSize: 22
+        font.bold: true
+        font.italic: false
+        font.family: "verdana"
+
+        text: "Ahmet Can Fakili"
+
+        width: 300
+        height: 100
+
+        // anchors.centerIn: parent
+
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+        x: 600
+        y: 100
+
+        background: Rectangle
+        {
+            border.color: "blue"
+            border.width: 5
+            radius: 10
+        }
+
+        color: myMouseArea.containsMouse ? "red" : "black"
+        scale: myMouseArea.containsMouse ? 1.2 : 1.0
+
+        MouseArea
+        {
+            id: myMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+        }
+    }
+
+    Row
+    {
+        spacing: 20
+        // anchors.centerIn: parent
+        x:50
+        y: 750
+        Button
+        {
+            id:myButton_Information
+            //anchors.centerIn: parent
+            text:"Information"
+            onClicked:
+            {
+                myMessageDialog_Information.open()
+            }
+        }
+        Button
+        {
+            id:myButton_Warning
+            //anchors.centerIn: parent
+            text:"Warning"
+            onClicked:
+            {
+                myMessageDialog_Warning.open()
+            }
+        }
+        Button
+        {
+            id:myButton_Critical
+            //anchors.centerIn: parent
+            text:"Critical"
+            onClicked:
+            {
+                myMessageDialog_Critical.open()
+            }
+        }
+        Button
+        {
+            id:myButton_Question
+            //anchors.centerIn: parent
+            text:"Question"
+            onClicked:
+            {
+                myMessageDialog_Question.open()
+            }
+        }
+        Button
+        {
+            id:myButton_Custom
+            //anchors.centerIn: parent
+            text:"Custom"
+            onClicked:
+            {
+                myMessageDialog_Custom.open()
+            }
+        }
+    }
+
+    MessageDialog
+    {
+        id:myMessageDialog_Custom
+        text: "Custom Message Dialog Box"
+        title: "Qt QML Custom MessageBox"
+        icon: StandardIcon.Information
+        standardButtons: MessageDialog.Ok | MessageDialog.Reset | MessageDialog.Help | MessageDialog.NoToAll | MessageDialog.YesToAll
+        onAccepted:
+        {
+            console.log("Custom Ok Button Clicked.");
+        }
+        onHelp:
+        {
+            console.log("Custom Help Button Clicked.");
+        }
+        onNo:
+        {
+            console.log("Custom No Button Clicked.");
+        }
+        onReset:
+        {
+            console.log("Custom Reset Button Clicked.");
+        }
+    }
+
+
+    MessageDialog
+    {
+        id:myMessageDialog_Information
+        text: "Information Message Dialog Box"
+        title: "Qt QML Information MessageBox"
+        icon: StandardIcon.Information
+        standardButtons: MessageDialog.Ok
+        onAccepted:
+        {
+            console.log("Information Ok Button Clicked.");
+        }
+    }
+
+    MessageDialog
+    {
+        id:myMessageDialog_Warning
+        text: "Warning Message Dialog Box"
+        title: "Qt QML Warning MessageBox"
+        icon: StandardIcon.Warning
+        standardButtons: MessageDialog.Ok | MessageDialog.Yes
+        onAccepted:
+        {
+            console.log("Warning Ok Button Clicked.");
+        }
+    }
+
+    MessageDialog
+    {
+        id:myMessageDialog_Critical
+        text: "Critical Message Dialog Box"
+        title: "Qt QML Critical MessageBox"
+        icon: StandardIcon.Critical
+        standardButtons: MessageDialog.Ok
+        onAccepted:
+        {
+            console.log("Critical Ok Button Clicked.");
+        }
+    }
+
+    MessageDialog
+    {
+        id:myMessageDialog_Question
+        text: "Question Message Dialog Box"
+        title: "Qt QML Question MessageBox"
+        icon: StandardIcon.Question
+        standardButtons: MessageDialog.Yes | MessageDialog.No
+        onYes:
+        {
+            console.log("Question Yes Button Clicked.");
+        }
+        onNo:
+        {
+             console.log("Question No Button Clicked.");
+        }
+    }
+
+
+
+    Button
+    {
+        id:myButton123
+        x:600
+        y: 50
+        text:"Open File"
+        onClicked:
+        {
+            myFileDialog.open()
+        }
+    }
+
+    FileDialog
+    {
+        id:myFileDialog
+        modality: Qt.ApplicationModal
+        folder: shortcuts.pictures
+        selectMultiple: true
+        // nameFilters: ["Images file (*.jpg *.png)"]
+        onAccepted:
+        {
+            console.log(fileUrl)
+            console.log(fileUrls)
+        }
+    }
+
+
+    Button
+    {
+        id:myButton234
+        width: 100
+        height: 50
+        text: "Open Folder"
+        // anchors.centerIn: parent
+        x:600
+        y: 200
+        onClicked:
+        {
+            myFolderDialog.open()
+        }
+    }
+
+    // FolderDialog
+    // {
+    //     id:myFolderDialog
+    //     title: "Select The Folder..."
+    //     onAccepted:
+    //     {
+    //         console.log(myFolderDialog.selectedFolder)
+    //     }
+    // }
+    
 }
