@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 
 Window {
     width: 600
-    height: 400
+    height: 600
     visible: true
     title: qsTr("BUTTON_TEST")
 
@@ -12,7 +12,7 @@ Window {
     Button {
         id: myButton
         x: 100
-        y: 50 
+        y: 100 
         width: 150
         height: 50
 
@@ -190,6 +190,256 @@ Window {
             border.color : myTextField.activeFocus ? "#e15f41" : "#303952"
             border.width : 2
             radius: 5
+        }
+    }
+
+    GroupBox
+    {
+        // anchors.centerIn: parent
+        x: 100
+        y: 400
+        label: CheckBox
+        {
+            id: mainCheckBox
+            checked: true
+            text: qsTr("Main CheckBox")
+            background: Rectangle
+            {
+                border.color: "#f7b731"
+                border.width: 3
+                radius: 3
+            }
+        }
+        Row
+        {
+            anchors.centerIn: parent
+            spacing: 15
+            enabled: mainCheckBox.checked
+            Button
+            {
+                id: myButton121
+                text: qsTr("Button Control")
+            }
+            CheckBox
+            {
+                id: myCheckBox4545
+                text: qsTr("CheckBox Control")
+            }
+            Button
+            {
+                id: myButton_1
+                text: qsTr("Button Control")
+            }
+        }
+
+        background: Rectangle
+        {
+            border.color: "#a55eea"
+            border.width: 3
+            radius: 3
+        }
+    }
+
+    Column
+    {
+        // anchors.centerIn: parent
+        x: 350
+        y: 100
+        spacing: 30
+        RadioButton
+        {
+            id: myRadioButton_1
+            text: "Option 1"
+            font.pointSize: 20
+            font.bold: true
+            height: 60
+            background: Rectangle
+            {
+                border.width: 3
+                border.color: "#2C3A47"
+                radius: 10
+            }
+            indicator: Rectangle
+            {
+                id: myRadioButton_1_indicator
+                implicitWidth: 40
+                implicitHeight: 40
+                radius: width / 2
+                x: 10
+                y: ((myRadioButton_1.height - myRadioButton_1_indicator.height) / 2)
+                color: myRadioButton_1.checked ? "#EAB543" : "transparent"
+                anchors.margins: 5
+                border.color: "#B33771"
+                border.width: 3
+            }
+            onCheckedChanged:
+            {
+                console.log("Option 1 Status Changed To : ", myRadioButton_1.checked)
+            }
+        }
+
+        RadioButton
+        {
+            id: myRadioButton_2
+            text: "Option 2"
+            font.pointSize: 20
+            font.bold: true
+            height: 60
+            background: Rectangle
+            {
+                border.width: 3
+                border.color: "#2C3A47"
+                radius: 10
+            }
+            indicator: Rectangle
+            {
+                id: myRadioButton_2_indicator
+                implicitWidth: 40
+                implicitHeight: 40
+                radius: width / 2
+                x: 10
+                y: ((myRadioButton_2.height - myRadioButton_2_indicator.height) / 2)
+                color: myRadioButton_2.checked ? "#EAB543" : "transparent"
+                anchors.margins: 5
+                border.color: "#B33771"
+                border.width: 3
+            }
+            onCheckedChanged:
+            {
+                console.log("Option 2 Status Changed To : ", myRadioButton_2.checked)
+            }
+        }
+
+        RadioButton
+        {
+            id: myRadioButton_3
+            text: "Option 3"
+            font.pointSize: 20
+            font.bold: true
+            height: 60
+            background: Rectangle
+            {
+                border.width: 3
+                border.color: "#2C3A47"
+                radius: 10
+            }
+            indicator: Rectangle
+            {
+                id: myRadioButton_3_indicator
+                implicitWidth: 40
+                implicitHeight: 40
+                radius: width / 2
+                x: 10
+                y: ((myRadioButton_3.height - myRadioButton_3_indicator.height) / 2)
+                color: myRadioButton_3.checked ? "#EAB543" : "transparent"
+                anchors.margins: 5
+                border.color: "#B33771"
+                border.width: 3
+            }
+            onCheckedChanged:
+            {
+                console.log("Option 3 Status Changed To : ", myRadioButton_3.checked)
+            }
+        }
+    }
+
+    SpinBox
+    {
+        id: mySpinBox
+        // anchors.centerIn: parent
+        x: 350
+        y: 350
+        from: 0 
+        to: 1000
+        stepSize: 10
+        editable: true
+        width: 200
+        height: 50
+
+        validator: IntValidator
+        {
+            bottom: mySpinBox.from
+            top: mySpinBox.to
+        }
+
+        onValueChanged:
+        {
+            console.log("SpinBox Value Is : ", mySpinBox.value)
+        }
+
+        contentItem: TextInput
+        {
+            text: mySpinBox.textFromValue(mySpinBox.value, mySpinBox.locale)
+            font.pointSize: 15
+            font.bold: true
+
+            color: "#485460"
+            selectionColor: "#0fbcf9"
+            selectedTextColor: "#d2dae2"
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            validator: mySpinBox.validator
+        }
+
+        up.indicator: Rectangle
+        {
+            implicitWidth: 40
+            implicitHeight: 40
+
+            x: mySpinBox.mirrored ? 0 : ((parent.width - width) - 5)
+            y: ((mySpinBox.height - height) / 2)
+
+            radius: 20
+
+            color: mySpinBox.up.pressed ? "#ff3f34" : "#00d8d6"
+
+            border.width: 3
+            border.color: "#3c40c6"
+
+            Text
+            {
+                text: "+"
+                font.pointSize: 20
+                color: "#1e272e"
+                anchors.fill: parent
+                fontSizeMode: Text.Fit
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        down.indicator: Rectangle
+        {
+            implicitWidth: 40
+            implicitHeight: 40
+
+            x: mySpinBox.mirrored ? parent.width - width : 5
+            y: ((mySpinBox.height - height) / 2)
+
+            radius: 20
+
+            color: mySpinBox.down.pressed ? "#ff3f34" : "#00d8d6"
+
+            border.width: 3
+            border.color: "#3c40c6"
+
+            Text
+            {
+                text: "-"
+                font.pointSize: 20
+                color: "#1e272e"
+                anchors.fill: parent
+                fontSizeMode: Text.Fit
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        background: Rectangle
+        {
+            border.color: "#1e272e"
+            border.width: 5
+            radius: 25
         }
     }
 }
